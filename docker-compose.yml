@@ -1,6 +1,15 @@
 version: "3.8"
 
 services:
+  quiz_app:
+    container_name: quiz_app
+    build:
+      context: .
+    ports:
+      - "8000:5000"
+    depends_on:
+      - database
+
   database:
     container_name: quiz_database
     image: postgres:12.8
