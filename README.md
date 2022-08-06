@@ -16,14 +16,14 @@ cd ip-telegram-bot
 
 ## USAGE
 
-1. Run `docker-compose up` in terminal.
+1. Run `docker-compose up` or `docker compose up` in terminal.
 
 
 ### API Server
 
 - `POST localhost:8000/questions` - Send JSON in form like 
 `{"questions_num": integer}` via Postman for example or
-`curl -X POST -H "Content-Type: application/json"     -d '{"questions_num": 1}' localhost:8000/questions`
+```curl -X POST -H "Content-Type: application/json"     -d '{"questions_num": 1}' localhost:8000/questions```
 
 
 ### Database
