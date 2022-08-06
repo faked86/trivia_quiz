@@ -16,42 +16,54 @@ def validate(req: Request):
 
 
 def get_last_previous_question(database: SQLAlchemy):
-    last_quest = Question.query.filter_by(last_request=True).all()
-    results = []
+
+    last_question: Question = Question.query.filter_by(last_request=True).one_or_none()
+
+    if last_question is None:
+        return None
+
     try:
-        for res in last_quest:
-            res.last_request = False
-            results.append(
-                {
-                    "id": res.id,
-                    "question": res.question,
-                    "answer": res.answer,
-                    "created_at": res.created_at,
-                }
-            )
+        last_question.last_request = False
+        result = {
+            "id": last_question.id,
+            "question": last_question.question,
+            "answer": last_question.answer,
+            "created_at": last_question.created_at,
+        }
         database.session.commit()
     except Exception:
         database.session.rollback()
         raise
-    return results
+    return result
 
 
 def get_response_from_api(api_url: str, count: int):
     api_response = requests.get(api_url + f"{count}")
 
+    response_objects = list(api_response.json())
+
     questions = []
-    for response in api_response.json():
-        while Question.query.filter_by(id=response["id"]).all():
+    for index, response in enumerate(response_objects):
+        while Question.query.filter_by(id=response["id"]).one_or_none():
             logger.debug("Same question! Retrying.")
             response = requests.get(api_url + "1").json()[0]
 
-        question = Question(
-            id=response["id"],
-            question=response["question"],
-            answer=response["answer"],
-            created_at=response["created_at"],
-            last_request=True,
-        )
+        if index < (len(response_objects) - 1):
+            question = Question(
+                id=response["id"],
+                question=response["question"],
+                answer=response["answer"],
+                created_at=response["created_at"],
+                last_request=False,
+            )
+        else:
+            question = Question(
+                id=response["id"],
+                question=response["question"],
+                answer=response["answer"],
+                created_at=response["created_at"],
+                last_request=True,
+            )
         questions.append(question)
     return questions
 
