@@ -9,6 +9,14 @@ services:
       - "8000:5000"
     depends_on:
       - database
+    command:
+      [
+        "./wait-for-it.sh",
+        "database:5432",
+        "--",
+        "python",
+        "run.py"
+      ]
 
   database:
     container_name: quiz_database
