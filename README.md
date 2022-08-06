@@ -23,7 +23,9 @@ cd ip-telegram-bot
 
 - `POST localhost:8000/questions` - Send JSON in form like 
 `{"questions_num": integer}` via Postman for example or
-```curl -X POST -H "Content-Type: application/json"     -d '{"questions_num": 1}' localhost:8000/questions```
+```
+curl -X POST -H "Content-Type: application/json" -d '{"questions_num": 1}' localhost:8000/questions
+```
 
 
 ### Database
