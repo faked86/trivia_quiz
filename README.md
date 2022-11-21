@@ -1,6 +1,6 @@
 # TRIVIA_QUIZ
 
-Test task for Bewise.ai
+Test task.
 
 ## Task:
 
