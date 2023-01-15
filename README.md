@@ -30,7 +30,7 @@ Simply clone this repo:
 
 ```
 git clone https://github.com/faked86/trivia_quiz.git
-cd ip-telegram-bot
+cd trivia_quiz
 ```
 
 ## USAGE
